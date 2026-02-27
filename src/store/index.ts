@@ -1,10 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import rawMaterialReducer from './slices/rawMaterialSlice';
+import productReducer from './slices/producSlice';
+import productionReducer from './slices/productionSlice'; // Adicione este import
 
 export const store = configureStore({
   reducer: {
     rawMaterials: rawMaterialReducer,
-    // Adicionaremos os outros slices (products, production) conforme avançarmos
+    products: productReducer,
+    productions: productionReducer, // Adicione este reducer
   },
 });
 

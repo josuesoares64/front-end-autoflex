@@ -56,7 +56,8 @@ const rawMaterialSlice = createSlice({
       })
       // Delete
       .addCase(deleteRawMaterial.fulfilled, (state, action) => {
-        state.items = state.items.filter(item => item.id !== action.payload);
+        // Convertemos ambos para String para garantir a comparação correta
+        state.items = state.items.filter(item => String(item.id) !== String(action.payload));
       });
   },
 });
