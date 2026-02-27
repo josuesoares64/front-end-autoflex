@@ -39,7 +39,6 @@ export default function ProductModal({ isOpen, selectedProduct, onClose }: any) 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Criamos o objeto EXATAMENTE como o banco quer
     const dataToSend = {
       code: code.trim(),
       name: name.trim(),
@@ -48,15 +47,14 @@ export default function ProductModal({ isOpen, selectedProduct, onClose }: any) 
         .filter(m => m.rawMaterialId !== '')
         .map(m => ({
           rawMaterialId: m.rawMaterialId,
-          quantity: Number(m.quantity),       // Tenta 'quantity'
-          quantityNeeded: Number(m.quantity) // Tenta 'quantityNeeded' (backup)
+          quantity: Number(m.quantity),
+          quantityNeeded: Number(m.quantity) 
         }))
     };
 
     console.log("OBJETO ENVIADO:", dataToSend);
 
     try {
-      // Usamos .unwrap() para capturar o erro aqui no catch
       if (selectedProduct?.id) {
         await dispatch(updateProduct({ id: selectedProduct.id, data: dataToSend })).unwrap();
       } else {

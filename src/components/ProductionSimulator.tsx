@@ -10,18 +10,16 @@ export default function ProductionSimulator() {
   const { items } = useSelector((state: RootState) => state.productions);
   const availableProducts = (items as any)?.products || [];
 
-  // Estado iniciado como vazio para evitar o "0" fixo
   const [selectedLimits, setSelectedLimits] = useState<Record<string, string>>({});
 
   const handleSelectProduct = (productId: string) => {
     if (!productId) return;
     if (selectedLimits[productId] === undefined) {
-      setSelectedLimits(prev => ({ ...prev, [productId]: "" })); // String vazia em vez de 0
+      setSelectedLimits(prev => ({ ...prev, [productId]: "" }));
     }
   };
 
   const handleInputChange = (id: string, value: string) => {
-    // Remove zeros à esquerda para não ficar 010
     const cleanValue = value.replace(/^0+/, '');
     setSelectedLimits(prev => ({ ...prev, [id]: cleanValue }));
   };

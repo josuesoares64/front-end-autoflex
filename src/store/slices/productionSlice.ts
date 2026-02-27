@@ -11,7 +11,6 @@ export const createProduction = createAsyncThunk('productions/create', async (da
   return response.data;
 });
 
-// Movi para cima para organizar, mas o importante é o extraReducers abaixo
 export const simulateProduction = createAsyncThunk(
   'production/simulate',
   async (limits: { productId: string, max: number }[]) => {
@@ -34,14 +33,12 @@ const productionSlice = createSlice({
         state.status = 'succeeded';
       })
       .addCase(createProduction.fulfilled, (state: any, action) => {
-        // Verificamos se a estrutura existe e usamos tipagem 'any' para o unshift
         if (state.items && state.items.products) {
           (state.items.products as any[]).unshift(action.payload);
         }
       })
-      // --- ADICIONE ESTA LINHA AQUI EMBAIXO ---
       .addCase(simulateProduction.fulfilled, (state, action) => {
-        state.items = action.payload; // Sobrescreve os itens com o plano calculado pelo back
+        state.items = action.payload;
         state.status = 'succeeded';
       });
   },

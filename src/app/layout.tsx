@@ -29,9 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </nav>
           </aside>
 
-          {/* MAIN CONTENT AREA */}
           <main className="flex-1 flex flex-col min-w-0 pb-20 md:pb-0">
-            {/* HEADER */}
             <header className="h-16 bg-white border-b border-slate-200 flex items-center px-6 md:px-8 justify-between shadow-sm sticky top-0 z-20">
               <div className="flex items-center gap-3">
                 <div className="md:hidden bg-blue-600 p-1.5 rounded-lg text-white">

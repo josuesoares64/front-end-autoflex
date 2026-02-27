@@ -37,15 +37,9 @@ export const updateProduct = createAsyncThunk(
       
       console.log("RESPOSTA BRUTA DO BACK-END:", response.data);
 
-      /**
-       * CORREÇÃO CRÍTICA:
-       * Como o back-end não está devolvendo o array 'ProductRawMaterials' no PATCH,
-       * nós reconstruímos o objeto para o Redux não "limpar" os materiais da tela.
-       */
       const updatedProduct = {
         ...(response.data || {}),
-        id: id, // Garante que o ID esteja presente
-        // Se o back não mandou os materiais, usamos os que acabamos de enviar no 'data'
+        id: id, 
         ProductRawMaterials: response.data?.ProductRawMaterials || data.materials?.map((m: any) => ({
           rawMaterialId: m.rawMaterialId,
           quantity: m.quantity || m.quantityNeeded
@@ -117,7 +111,6 @@ const productSlice = createSlice({
       .addCase(updateProduct.fulfilled, (state, action) => {
         const index = state.items.findIndex(p => p.id === action.payload.id);
         if (index !== -1) {
-          // Fazemos o merge do item antigo com o novo para garantir que nada se perca
           state.items[index] = { 
             ...state.items[index], 
             ...action.payload 

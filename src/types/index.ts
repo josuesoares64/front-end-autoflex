@@ -11,11 +11,11 @@ export interface Product {
 }
 
 export interface RawMaterial {
-  id?: string | number; // Aceita ambos e é opcional para evitar conflitos
+  id?: string | number;
   code: string;
   name: string;
   stock_quantity: number; 
-  stockQuantity?: number; // Opcional: evita erro se algum lugar ainda usar camelCase
+  stockQuantity?: number;
 }
 
 export interface Production {
@@ -25,5 +25,5 @@ export interface Production {
   status: 'PENDING' | 'COMPLETED' | 'CANCELLED';
   observation?: string;
   createdAt?: string;
-  product?: { name: string; code: string }; // Para exibir na tabela
+  product?: { name: string; code: string };
 }

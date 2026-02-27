@@ -22,7 +22,6 @@ export default function Home() {
     <div className="min-h-screen bg-[#f8fafc] p-6 md:p-12 font-sans text-slate-900">
       <main className="max-w-6xl mx-auto space-y-10">
         
-        {/* Header Profissional */}
         <header className="flex items-center justify-between">
           <div className="space-y-1">
             <h1 className="text-3xl font-black tracking-tight text-slate-900 flex items-center gap-3">

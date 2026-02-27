@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import { fetchProducts, deleteProduct } from '@/store/slices/producSlice';
-// IMPORTANTE: Importamos o fetch das matérias-primas aqui também
 import { fetchRawMaterials } from '@/store/slices/rawMaterialSlice'; 
 import ProductModal from '@/components/ProductModal';
 import { Plus, Edit2, Trash2, Box, Loader2 } from 'lucide-react';
@@ -17,8 +16,6 @@ export default function ProductsPage() {
   const { items, status } = useSelector((state: RootState) => state.products);
 
   useEffect(() => {
-    // Quando a página carrega, buscamos os produtos E as matérias-primas
-    // Assim, quando você abrir o modal, os dados já estarão lá.
     dispatch(fetchProducts());
     dispatch(fetchRawMaterials());
   }, [dispatch]);
@@ -113,7 +110,7 @@ export default function ProductsPage() {
         )}
       </div>
 
-      {/* MODAL QUE AGORA TERÁ AS MATÉRIAS-PRIMAS CARREGADAS */}
+      {/* MODAL DAS MATÉRIAS-PRIMAS CARREGADAS */}
       <ProductModal 
         isOpen={isModalOpen} 
         selectedProduct={selectedProduct} 

@@ -33,7 +33,6 @@ export default function MaterialModal({
       setFormData({
         code: selectedMaterial.code,
         name: selectedMaterial.name,
-        // Usamos "as any" aqui caso o campo no objeto vindo do banco seja stock_quantity
         stockQuantity: String((selectedMaterial as any).stock_quantity || (selectedMaterial as any).stockQuantity || ""),
       });
     } else {
@@ -46,13 +45,11 @@ export default function MaterialModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // AJUSTE AQUI: O payload deve seguir a interface RawMaterial
-    // Se o erro do build pede 'stock_quantity', nós entregamos exatamente isso.
     const payload = {
       code: formData.code,
       name: formData.name,
       stock_quantity: Number(formData.stockQuantity), 
-    } as any; // Usamos 'as any' temporariamente para garantir que o build ignore o conflito de nomes
+    } as any; 
 
     try {
       if (selectedMaterial?.id) {

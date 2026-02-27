@@ -23,7 +23,7 @@ export default function ProductionPage() {
   return (
     <div className="max-w-7xl mx-auto p-4 md:p-6 text-black pb-24 md:pb-6">
       
-      {/* HEADER & KPIs - Ajustado para Grid Responsivo */}
+      {/* HEADER & KPIs*/}
       <div className="flex flex-col gap-4 mb-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Card Potencial */}
@@ -108,7 +108,6 @@ export default function ProductionPage() {
           </table>
         </div>
 
-        {/* VIEW MOBILE: CARDS (Oculta em telas grandes) */}
         <div className="lg:hidden divide-y divide-slate-100">
           {products.map((p: any) => (
             <div key={p.productId} className="p-5 active:bg-slate-50 transition-colors">
