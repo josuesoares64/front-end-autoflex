@@ -11,7 +11,7 @@ export interface Product {
 }
 
 export interface RawMaterial {
-  id?: string | number;
+  id?: string;
   code: string;
   name: string;
   stock_quantity: number; 

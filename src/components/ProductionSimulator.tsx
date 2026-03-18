@@ -1,27 +1,32 @@
-'use client';
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState, AppDispatch } from '@/store';
-import { simulateProduction, fetchProductions } from '@/store/slices/productionSlice';
-import { Play, RotateCcw, X, AlertCircle } from 'lucide-react';
+"use client";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, AppDispatch } from "@/store";
+import {
+  simulateProduction,
+  fetchProductions,
+} from "@/store/slices/productionSlice";
+import { Play, RotateCcw, X, AlertCircle } from "lucide-react";
 
 export default function ProductionSimulator() {
   const dispatch = useDispatch<AppDispatch>();
   const { items } = useSelector((state: RootState) => state.productions);
   const availableProducts = (items as any)?.products || [];
 
-  const [selectedLimits, setSelectedLimits] = useState<Record<string, string>>({});
+  const [selectedLimits, setSelectedLimits] = useState<Record<string, string>>(
+    {},
+  );
 
   const handleSelectProduct = (productId: string) => {
     if (!productId) return;
     if (selectedLimits[productId] === undefined) {
-      setSelectedLimits(prev => ({ ...prev, [productId]: "" }));
+      setSelectedLimits((prev) => ({ ...prev, [productId]: "" }));
     }
   };
 
   const handleInputChange = (id: string, value: string) => {
-    const cleanValue = value.replace(/^0+/, '');
-    setSelectedLimits(prev => ({ ...prev, [id]: cleanValue }));
+    const cleanValue = value.replace(/^0+/, "");
+    setSelectedLimits((prev) => ({ ...prev, [id]: cleanValue }));
   };
 
   const removeProduct = (id: string) => {
@@ -31,12 +36,14 @@ export default function ProductionSimulator() {
   };
 
   const handleSimulate = async () => {
-    const payload = Object.entries(selectedLimits).map(([productId, max]) => ({
-      productId,
-      max: Number(max) || 0
-    }));
-    
-    // Dispara a simulação. O slice deve atualizar o state.items
+    // Aqui você está enviando { limits: [...] }
+    const payload = {
+      limits: Object.entries(selectedLimits).map(([productId, max]) => ({
+        productId,
+        max: Number(max) || 0,
+      })),
+    };
+
     await dispatch(simulateProduction(payload));
   };
 
@@ -52,14 +59,19 @@ export default function ProductionSimulator() {
           <h3 className="text-lg font-bold flex items-center gap-2 text-green-400">
             <Play size={20} /> Simulador de Escassez
           </h3>
-          <p className="text-slate-400 text-sm">Defina limites para redistribuir a matéria-prima</p>
+          <p className="text-slate-400 text-sm">
+            Defina limites para redistribuir a matéria-prima
+          </p>
         </div>
-        
+
         <div className="flex gap-2">
-          <button onClick={resetSimulation} className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-lg transition-all text-sm">
+          <button
+            onClick={resetSimulation}
+            className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-lg transition-all text-sm"
+          >
             <RotateCcw size={16} /> Resetar
           </button>
-          <button 
+          <button
             onClick={handleSimulate}
             disabled={Object.keys(selectedLimits).length === 0}
             className="bg-green-500 hover:bg-green-600 disabled:opacity-30 text-slate-900 px-6 py-2 rounded-lg font-bold transition-all"
@@ -70,7 +82,7 @@ export default function ProductionSimulator() {
       </div>
 
       <div className="mb-6">
-        <select 
+        <select
           onChange={(e) => handleSelectProduct(e.target.value)}
           value=""
           className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer"
@@ -86,20 +98,30 @@ export default function ProductionSimulator() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {Object.keys(selectedLimits).map((id) => {
-          const product = availableProducts.find((p: any) => p.productId === id);
+          const product = availableProducts.find(
+            (p: any) => p.productId === id,
+          );
           return (
-            <div key={id} className="bg-slate-800 border border-slate-600 p-4 rounded-xl relative">
-              <button onClick={() => removeProduct(id)} className="absolute top-2 right-2 text-slate-500 hover:text-red-400">
+            <div
+              key={id}
+              className="bg-slate-800 border border-slate-600 p-4 rounded-xl relative"
+            >
+              <button
+                onClick={() => removeProduct(id)}
+                className="absolute top-2 right-2 text-slate-500 hover:text-red-400"
+              >
                 <X size={18} />
               </button>
-              
+
               <div className="flex flex-col gap-2">
                 <span className="font-bold text-blue-400">{product?.name}</span>
                 <div className="flex items-center gap-4">
                   <div className="flex-1">
-                    <label className="text-[10px] text-slate-500 uppercase font-bold block mb-1">Simular Limite</label>
-                    <input 
-                      type="number" 
+                    <label className="text-[10px] text-slate-500 uppercase font-bold block mb-1">
+                      Simular Limite
+                    </label>
+                    <input
+                      type="number"
                       className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-green-500"
                       placeholder="Digite a qtd..."
                       value={selectedLimits[id]}
@@ -107,8 +129,12 @@ export default function ProductionSimulator() {
                     />
                   </div>
                   <div className="text-right">
-                    <label className="text-[10px] text-slate-500 uppercase font-bold block mb-1">Original</label>
-                    <span className="text-lg font-mono text-slate-400">{product?.possibleQuantity || product?.quantity}</span>
+                    <label className="text-[10px] text-slate-500 uppercase font-bold block mb-1">
+                      Original
+                    </label>
+                    <span className="text-lg font-mono text-slate-400">
+                      {product?.possibleQuantity || product?.quantity}
+                    </span>
                   </div>
                 </div>
               </div>

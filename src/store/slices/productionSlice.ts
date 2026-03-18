@@ -6,10 +6,18 @@ export const fetchProductions = createAsyncThunk('productions/fetchAll', async (
   return response.data;
 });
 
-export const createProduction = createAsyncThunk('productions/create', async (data: { productId: string; quantity: number }) => {
-  const response = await api.post('/productions', data);
-  return response.data;
-});
+export const createProduction = createAsyncThunk(
+  'productions/create',
+  async (data: { productId: string; quantity: number }, { rejectWithValue }) => {
+    try {
+      // CORREÇÃO DEFINITIVA: Rota exata para o seu POST
+      const response = await api.post('/production/output', data);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.error || 'Erro ao registrar produção');
+    }
+  }
+);
 
 export const simulateProduction = createAsyncThunk(
   'production/simulate',
@@ -34,7 +42,8 @@ const productionSlice = createSlice({
       })
       .addCase(createProduction.fulfilled, (state: any, action) => {
         if (state.items && state.items.products) {
-          (state.items.products as any[]).unshift(action.payload);
+          // Ajustado para pegar o objeto de output que volta da rota /output
+          state.items.products.unshift(action.payload.output || action.payload);
         }
       })
       .addCase(simulateProduction.fulfilled, (state, action) => {
